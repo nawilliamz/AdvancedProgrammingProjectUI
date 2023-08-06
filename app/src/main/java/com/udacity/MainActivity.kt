@@ -1,5 +1,6 @@
 package com.udacity
 
+import android.animation.ValueAnimator
 import android.app.DownloadManager
 import android.app.NotificationManager
 import android.app.PendingIntent
@@ -23,6 +24,9 @@ class MainActivity : AppCompatActivity() {
     private lateinit var pendingIntent: PendingIntent
     private lateinit var action: NotificationCompat.Action
 
+
+    private lateinit var valueAnimator: ValueAnimator
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
@@ -30,6 +34,11 @@ class MainActivity : AppCompatActivity() {
 
 
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
+
+        val loadingButton = binding.downloadButton
+        valueAnimator = ValueAnimator.ofFloat(loadingButton.left, loadingButton.right)
+
+
 
         // TODO: Implement code below
 //        binding.custom_button.setOnClickListener {

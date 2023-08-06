@@ -2,13 +2,11 @@ package com.udacity
 
 import android.animation.ValueAnimator
 import android.content.Context
-import android.graphics.Canvas
-import android.graphics.Color
-import android.graphics.Paint
-import android.graphics.Typeface
+import android.graphics.*
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.withStyledAttributes
+import kotlin.math.min
 import kotlin.properties.Delegates
 
 class LoadingButton @JvmOverloads constructor(
@@ -21,10 +19,21 @@ class LoadingButton @JvmOverloads constructor(
     var buttonPrimaryColor = 0
     var buttonDownloadColor = 0
 
-    val buttonTop:Float = 140F
-    val buttonBottom = buttonTop
-    val buttonLeft = buttonTop * .20F
-    val buttonRight = buttonTop * .2F
+    val rect = RectF()
+
+    private var width = 0F
+    private var height = 0F
+
+//    private var buttonTop = 0F
+//    private var buttonBottom = 0F
+//    private var buttonLeft = 0F
+//    private var buttonRight = 0F
+
+    private var textWidth = 0F
+    private var textHeight = 0F
+
+    private var radius = 0F
+
 
     val buttonPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
@@ -33,14 +42,25 @@ class LoadingButton @JvmOverloads constructor(
     }
     val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         textAlign = Paint.Align.CENTER
-        textSize = 55.0f
+        textSize = 66.0f
         typeface = Typeface.create( "", Typeface.BOLD)
+    }
+
+    val textPaint2 = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        textAlign = Paint.Align.CENTER
+        textSize = 66.0f
+        typeface = Typeface.create( "", Typeface.BOLD)
+    }
+
+    val circlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        style = Paint.Style.FILL
     }
 
     private val valueAnimator = ValueAnimator()
 
     //Note the separate class for ButtonState
     private var buttonState: ButtonState by Delegates.observable<ButtonState>(ButtonState.Completed) { p, old, new ->
+
 
     }
 
@@ -57,15 +77,59 @@ class LoadingButton @JvmOverloads constructor(
     }
 
 
+    override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
+        super.onSizeChanged(w, h, oldw, oldh)
+
+        width = w.toFloat()
+        height = h.toFloat()
+
+        rect.top = 0F
+        rect.bottom = rect.top + height
+        rect.left = 0F
+        rect.right = rect.left + width
+
+        textWidth = width/2
+        textHeight = height/2
+
+        radius = textPaint2.textSize/2
+
+
+    }
+
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
         buttonPaint.color = buttonPrimaryColor
-        canvas?.drawRect(buttonLeft, buttonTop, buttonRight, buttonBottom, buttonPaint)
+        canvas?.drawRect(rect.left, rect.top, rect.right, rect.bottom, buttonPaint)
 
+        if (canvas != null) {
+//            drawButtonPreDLText(canvas)
+            
+//            drawButtonDownloadingText(canvas)
 
+            drawStatusCircle(canvas)
+        }
 
     }
+
+
+//    override fun performClick(): Boolean {
+//        if (super.performClick()) return true
+//
+//        ValueAnimator.ofFloat(rect.left, rect.right).apply {
+//
+//            addUpdateListener {
+//                duration = 1000
+//
+//                start()
+//            }
+//
+//        }
+//
+//
+//    }
+
+
 
     override fun onMeasure(widthMeasureSpec: Int, heightMeasureSpec: Int) {
         val minw: Int = paddingLeft + paddingRight + suggestedMinimumWidth
@@ -78,6 +142,39 @@ class LoadingButton @JvmOverloads constructor(
 //        widthSize = w
 //        heightSize = h
         setMeasuredDimension(w, h)
+    }
+
+    private fun drawButtonPreDLText (canvas:Canvas) {
+
+        canvas.translate(textWidth, textHeight)
+        canvas.save()
+
+        canvas.drawText("DOWNLOAD", 0F,33F, textPaint)
+
+        canvas.restore()
+
+    }
+
+    private fun drawButtonDownloadingText (canvas:Canvas) {
+
+        canvas.translate(textWidth, textHeight)
+        canvas.save()
+
+        canvas.drawText("We are Loading", 0F,0F, textPaint2)
+
+        canvas.restore()
+
+    }
+
+    private fun drawStatusCircle (canvas:Canvas) {
+
+        canvas.translate(textWidth, textHeight)
+        canvas.save()
+
+        canvas.drawCircle(0F, 0F, radius, circlePaint)
+
+        canvas.restore()
+
     }
 
 }
