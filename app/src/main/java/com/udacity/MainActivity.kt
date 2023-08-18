@@ -36,7 +36,7 @@ class MainActivity : AppCompatActivity() {
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
         val loadingButton = binding.downloadButton
-        valueAnimator = ValueAnimator.ofFloat(loadingButton.left, loadingButton.right)
+//        valueAnimator = ValueAnimator.ofFloat(loadingButton.left, loadingButton.right)
 
 
 

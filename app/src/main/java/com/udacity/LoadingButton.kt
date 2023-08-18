@@ -107,7 +107,7 @@ class LoadingButton @JvmOverloads constructor(
             
 //            drawButtonDownloadingText(canvas)
 
-            drawStatusCircle(canvas)
+//            drawStatusCircle(canvas)
         }
 
     }
@@ -128,6 +128,8 @@ class LoadingButton @JvmOverloads constructor(
 //
 //
 //    }
+
+
 
 
 

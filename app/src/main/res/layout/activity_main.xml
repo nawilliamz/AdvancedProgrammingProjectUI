@@ -67,6 +67,15 @@
         app:layout_constraintTop_toTopOf="@+id/guideline3"
         app:primaryButtonColor="@color/colorPrimary" />
 
+    <com.udacity.SelectDownloadButton
+        android:layout_width="350dp"
+        android:layout_height="60dp"
+        app:downloadButtonColor="@color/colorPrimaryDark"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"
         android:layout_width="wrap_content"
