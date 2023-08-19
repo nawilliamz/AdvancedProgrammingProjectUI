@@ -35,7 +35,7 @@ class SelectDownloadButton @JvmOverloads constructor(
     val paint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         textAlign = Paint.Align.CENTER
         textSize = 66.0f
-        typeface = Typeface.create( "", Typeface.BOLD)
+//        typeface = Typeface.create( "", Typeface.BOLD)
     }
 
     init {
