@@ -4,14 +4,27 @@ import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.*
 import android.util.AttributeSet
+import android.view.LayoutInflater
 import android.view.View
 import androidx.core.content.withStyledAttributes
+import com.udacity.databinding.ActivityMainBinding
 import kotlin.math.min
 import kotlin.properties.Delegates
 
 class LoadingButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
+
+//    private var binding:ActivityMainBinding = ActivityMainBinding.inflate(LayoutInflater)
+
+
+//    override fun setOnCreateContextMenuListener(l: OnCreateContextMenuListener?) {
+//        super.setOnCreateContextMenuListener(l)
+//
+//        binding = ActivityMainBinding.inflate(LayoutInflater.from(context))
+//    }
+
+
 
 
 //    private var widthSize = 0
@@ -43,13 +56,13 @@ class LoadingButton @JvmOverloads constructor(
     val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         textAlign = Paint.Align.CENTER
         textSize = 66.0f
-        typeface = Typeface.create( "", Typeface.BOLD)
+//        typeface = Typeface.create( "", Typeface.BOLD)
     }
 
     val textPaint2 = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         textAlign = Paint.Align.CENTER
         textSize = 66.0f
-        typeface = Typeface.create( "", Typeface.BOLD)
+//        typeface = Typeface.create( "", Typeface.BOLD)
     }
 
     val circlePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
@@ -67,6 +80,8 @@ class LoadingButton @JvmOverloads constructor(
 
     init {
         isClickable = true
+
+
 
         context.withStyledAttributes(attrs, R.styleable.LoadingButton) {
             buttonPrimaryColor = getColor(R.styleable.LoadingButton_primaryButtonColor, 0)
@@ -110,6 +125,16 @@ class LoadingButton @JvmOverloads constructor(
 //            drawStatusCircle(canvas)
         }
 
+    }
+
+
+    fun setOnDownloadClickListener (listener: () -> Unit) {
+
+
+
+            this.setOnClickListener( {
+                listener.invoke()
+            })
     }
 
 

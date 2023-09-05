@@ -8,9 +8,10 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.withStyledAttributes
 
-class SelectDownloadButton @JvmOverloads constructor(
+class SelectFileButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
+
 
     private var width = 0F
     private var height = 0F
@@ -23,31 +24,29 @@ class SelectDownloadButton @JvmOverloads constructor(
     private var left = 0f
     private var right = 0f
 
-    private var buttonPrimaryColor = 0
-    private var buttonDownloadColor = 0
+    private var primaryColor = 0
+
 
     val rect = RectF()
 
-
-
-
-    val selectDownloadPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+    val selectFilePaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
+
 //        textAlign = Paint.Align.CENTER
 //        textSize = 66.0f
 //        typeface = Typeface.create( "", Typeface.BOLD)
     }
 
-    init {
 
-        //Remember: This code is defining a custom attribute for the View called buttonPrimaryColor and
-        //button DownloadColor. The actual color is defined in the XML file.
+    init {
         context.withStyledAttributes(attrs, R.styleable.LoadingButton) {
-            buttonPrimaryColor = getColor(R.styleable.LoadingButton_primaryButtonColor, 0)
-            buttonDownloadColor = getColor(R.styleable.LoadingButton_downloadButtonColor, 0)
+            primaryColor = getColor(R.styleable.LoadingButton_primaryColor, 0)
 
         }
+
+
     }
+
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -62,14 +61,15 @@ class SelectDownloadButton @JvmOverloads constructor(
 
         textWidth = width/2
         textHeight = height/2
-
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
-        selectDownloadPaint.color = buttonDownloadColor
-        canvas?.drawRect(left, top, right, bottom, selectDownloadPaint)
+            selectFilePaint.color = primaryColor
 
+            canvas?.drawRect(left, top, right, bottom, selectFilePaint)
+
+            setBackgroundResource(R.drawable.rectangle_rounded_corners)
     }
 }

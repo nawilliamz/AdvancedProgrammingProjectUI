@@ -4,6 +4,8 @@
 <!--   TODO: create custom attributes for the view-->
         <attr name="primaryButtonColor" format="color" />
         <attr name="downloadButtonColor" format="color" />
+        <attr name="primaryColor" format="color"/>
 
     </declare-styleable>
+
 </resources>

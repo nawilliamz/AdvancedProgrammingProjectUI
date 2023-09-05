@@ -56,11 +56,13 @@
 
     </RadioGroup>
 
+
     <com.udacity.LoadingButton
         android:id="@+id/download_button"
         android:layout_width="350dp"
         android:layout_height="60dp"
 
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -68,6 +70,7 @@
         app:primaryButtonColor="@color/colorPrimary" />
 
     <com.udacity.SelectDownloadButton
+        android:id="@+id/select_download_button"
         android:layout_width="350dp"
         android:layout_height="60dp"
         app:downloadButtonColor="@color/colorPrimaryDark"
@@ -75,6 +78,17 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3" />
+
+    <com.udacity.SelectFileButton
+        android:id="@+id/select_file_button"
+        android:layout_width="280dp"
+        android:layout_height="42dp"
+        android:background="@drawable/rectangle_rounded_corners"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline3"
+        app:primaryColor="@color/white" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"

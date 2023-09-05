@@ -10,8 +10,17 @@ import android.content.Intent
 import android.content.IntentFilter
 import android.net.Uri
 import android.os.Bundle
+import android.view.View
+import android.widget.RadioButton
+import android.widget.RadioGroup
+import android.widget.RadioGroup.OnCheckedChangeListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.core.view.isVisible
+import com.udacity.Util.ClickListenerOuter
+import com.udacity.Util.Constants
+import com.udacity.Util.Loading
+import com.udacity.Util.loadingFile
 import com.udacity.databinding.ActivityMainBinding
 
 class MainActivity : AppCompatActivity() {
@@ -39,12 +48,54 @@ class MainActivity : AppCompatActivity() {
 //        valueAnimator = ValueAnimator.ofFloat(loadingButton.left, loadingButton.right)
 
 
+        setOnCheckedListenerToRadioGroup(binding.radioGroup)
 
-        // TODO: Implement code below
-//        binding.custom_button.setOnClickListener {
-//            download()
-//        }
+//        val DM2 = MultiDownloads(this).downloadFile(MultiDownloads.glideURL)
+
+        binding.selectDownloadButton.isVisible = false
+
+//        binding.selectFileButton.setBackgroundResource(R.drawable.rectangle_rounded_corners)
+
+        binding.downloadButton.setOnDownloadClickListener {
+            //put what happens when downloadButton is clicked
+
+            when (loadingFile) {
+                Loading.GLIDE -> {
+
+                }
+                Loading.UDACITY -> {
+
+                }
+                Loading.RETROFIT -> {
+
+                }
+                else -> {
+                    //Make select_downloaod_button visible, animate it, and make "Select file to download" custom view visible so it
+                    //is overlaid on top of select_download_button
+                    //This should only last for a say 5 seconds before animation stops and customer view becomes invisible
+
+//                    binding.selectDownloadButton.isVisible = true
+
+                }
+            }
+        }
     }
+
+
+    private fun setOnCheckedListenerToRadioGroup (group: RadioGroup) {
+
+
+        val glide = binding.glideButton.id
+        val udacity = binding.udacityButton.id
+        val retrofit = binding.retrofitButton.id
+
+        val checkedId = 0
+
+        val listener = ClickListenerOuter(glide, udacity, retrofit)
+        listener.onCheckedChanged(group, checkedId)
+
+    }
+
 
     private val receiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
@@ -52,23 +103,22 @@ class MainActivity : AppCompatActivity() {
         }
     }
 
-    private fun download() {
-        val request =
-            DownloadManager.Request(Uri.parse(URL))
-                .setTitle(getString(R.string.app_name))
-                .setDescription(getString(R.string.app_description))
-                .setRequiresCharging(false)
-                .setAllowedOverMetered(true)
-                .setAllowedOverRoaming(true)
+//    override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
+//
+//        val glideId = binding.glideButton.id
+//        val udacityId = binding.udacityButton.id
+//        val retrofitId = binding.retrofitButton.id
+//
+//        when (checkedId) {
+//            glideId -> {}
+//            udacityId -> {}
+//            retrofitId -> {}
+//        }
 
-        val downloadManager = getSystemService(DOWNLOAD_SERVICE) as DownloadManager
-        downloadID =
-            downloadManager.enqueue(request)// enqueue puts the download request in the queue.
-    }
+//    }
 
-    companion object {
-        private const val URL =
-            "https://github.com/udacity/nd940-c3-advanced-android-programming-project-starter/archive/master.zip"
-        private const val CHANNEL_ID = "channelId"
-    }
+
+
+
+
 }
