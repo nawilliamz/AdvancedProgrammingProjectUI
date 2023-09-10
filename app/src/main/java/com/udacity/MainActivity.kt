@@ -113,8 +113,6 @@ class MainActivity : AppCompatActivity() {
 
     private fun animateSelectFileButton () {
 
-
-
         val animatedWidth = binding.animatedDownloadButton.width
 
         val animator = ValueAnimator.ofInt(0, animatedWidth)
@@ -123,7 +121,7 @@ class MainActivity : AppCompatActivity() {
         animator.addUpdateListener { valueAnimator  ->
             val animatedValue = valueAnimator.animatedValue as Int
 
-//            binding.selectDownloadButton.right = animatedValue
+            binding.animatedDownloadButton.right = animatedValue
         }
 
 
