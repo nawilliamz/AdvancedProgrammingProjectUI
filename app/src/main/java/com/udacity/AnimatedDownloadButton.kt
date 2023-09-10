@@ -8,7 +8,7 @@ import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.withStyledAttributes
 
-class SelectDownloadButton @JvmOverloads constructor(
+class AnimatedDownloadButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
 ) : View(context, attrs, defStyleAttr) {
 
@@ -52,13 +52,18 @@ class SelectDownloadButton @JvmOverloads constructor(
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
 
+
+        //Using to set text width & height
         width = w.toFloat()
         height = h.toFloat()
+
+
 
         top = 0F
         bottom = top + height
         left = 0F
-        right = left + width
+//        right = left + width
+        right = 0F
 
         textWidth = width/2
         textHeight = height/2

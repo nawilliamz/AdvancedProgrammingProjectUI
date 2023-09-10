@@ -16,6 +16,7 @@ import android.widget.RadioGroup
 import android.widget.RadioGroup.OnCheckedChangeListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
+import androidx.core.view.isGone
 import androidx.core.view.isVisible
 import com.udacity.Util.ClickListenerOuter
 import com.udacity.Util.Constants
@@ -36,23 +37,25 @@ class MainActivity : AppCompatActivity() {
 
     private lateinit var valueAnimator: ValueAnimator
 
+
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
 
-        registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
-        val loadingButton = binding.downloadButton
-//        valueAnimator = ValueAnimator.ofFloat(loadingButton.left, loadingButton.right)
+        registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
 
         setOnCheckedListenerToRadioGroup(binding.radioGroup)
 
 //        val DM2 = MultiDownloads(this).downloadFile(MultiDownloads.glideURL)
 
-        binding.selectDownloadButton.isVisible = false
+
+//        binding.selectDownloadButton.isGone = true
+        binding.selectFileButton.isGone = true
 
 //        binding.selectFileButton.setBackgroundResource(R.drawable.rectangle_rounded_corners)
 
@@ -70,9 +73,13 @@ class MainActivity : AppCompatActivity() {
 
                 }
                 else -> {
-                    //Make select_downloaod_button visible, animate it, and make "Select file to download" custom view visible so it
+                    //Make select_downloaod_button visible, animate it, and
+                    // make "Select file to download" custom view visible so it
                     //is overlaid on top of select_download_button
-                    //This should only last for a say 5 seconds before animation stops and customer view becomes invisible
+                    //This should only last for a say 5 seconds before animation stops
+                    // and customer view becomes invisible
+
+                    animateSelectFileButton()
 
 //                    binding.selectDownloadButton.isVisible = true
 
@@ -101,6 +108,27 @@ class MainActivity : AppCompatActivity() {
         override fun onReceive(context: Context?, intent: Intent?) {
             val id = intent?.getLongExtra(DownloadManager.EXTRA_DOWNLOAD_ID, -1)
         }
+    }
+
+
+    private fun animateSelectFileButton () {
+
+
+
+        val animatedWidth = binding.animatedDownloadButton.width
+
+        val animator = ValueAnimator.ofInt(0, animatedWidth)
+        animator.duration = 5000
+
+        animator.addUpdateListener { valueAnimator  ->
+            val animatedValue = valueAnimator.animatedValue as Int
+
+//            binding.selectDownloadButton.right = animatedValue
+        }
+
+
+        animator.start()
+
     }
 
 //    override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {

@@ -44,6 +44,7 @@ class SelectFileButton @JvmOverloads constructor(
 
         }
 
+        this.alpha = .8f
 
     }
 
@@ -68,7 +69,8 @@ class SelectFileButton @JvmOverloads constructor(
 
             selectFilePaint.color = primaryColor
 
-            canvas?.drawRect(left, top, right, bottom, selectFilePaint)
+//            canvas?.drawRect(left, top, right, bottom, selectFilePaint)
+            canvas?.drawRoundRect(left, top, right, bottom, 60f, 60f, selectFilePaint)
 
             setBackgroundResource(R.drawable.rectangle_rounded_corners)
     }
