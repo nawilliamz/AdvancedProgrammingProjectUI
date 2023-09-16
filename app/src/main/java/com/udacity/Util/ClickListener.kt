@@ -3,7 +3,7 @@ package com.udacity.Util
 import android.widget.RadioGroup
 import android.widget.RadioGroup.OnCheckedChangeListener
 
-var loadingFile:Loading = Loading.NONE
+lateinit var loadingFile:Loading
 
 class ClickListenerOuter(var glide: Int, var udacity: Int, var retrofit: Int) :
     RadioGroup.OnCheckedChangeListener {
@@ -26,8 +26,7 @@ class ClickListenerOuter(var glide: Int, var udacity: Int, var retrofit: Int) :
             }
         }
 
-        //still need to include an else equivalent to handle case when none of the buttons are
-        //clicked
+
     }
 
 

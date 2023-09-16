@@ -18,11 +18,17 @@ import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.view.isGone
 import androidx.core.view.isVisible
+import androidx.core.view.updateLayoutParams
 import com.udacity.Util.ClickListenerOuter
 import com.udacity.Util.Constants
 import com.udacity.Util.Loading
 import com.udacity.Util.loadingFile
 import com.udacity.databinding.ActivityMainBinding
+import kotlinx.coroutines.*
+import java.util.Timer
+
+
+
 
 class MainActivity : AppCompatActivity() {
 
@@ -38,6 +44,37 @@ class MainActivity : AppCompatActivity() {
     private lateinit var valueAnimator: ValueAnimator
 
 
+    //***********************Couroutines***********************************
+    private var animationProcessingJob_NoFileSelected = Job()
+
+    private val animationProcessingScope_NoFileSelected = CoroutineScope(Dispatchers.Main + animationProcessingJob_NoFileSelected)
+
+
+
+    private fun processAnimation_NoFileSelected(){
+        animationProcessingScope_NoFileSelected.launch {
+
+            val leftPosition = binding.downloadButton.x
+            val rightPosition = binding.downloadButton.x + binding.downloadButton.width
+
+            binding.animatedDownloadButton.showAnimatedDownloadButton(leftPosition, rightPosition)
+            delay(5000)
+            binding.animatedDownloadButton.isGone = true
+        }
+    }
+
+
+
+
+
+    override fun onDestroy() {
+        super.onDestroy()
+
+        animationProcessingJob_NoFileSelected.cancel()
+    }
+
+
+    //**************************************************************************
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -49,25 +86,30 @@ class MainActivity : AppCompatActivity() {
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
 
 
+
+
         setOnCheckedListenerToRadioGroup(binding.radioGroup)
 
 //        val DM2 = MultiDownloads(this).downloadFile(MultiDownloads.glideURL)
 
 
-//        binding.selectDownloadButton.isGone = true
+//        binding.animatedDownloadButton.isGone = true
         binding.selectFileButton.isGone = true
 
 //        binding.selectFileButton.setBackgroundResource(R.drawable.rectangle_rounded_corners)
 
+
+        //setOnDownloadClickListener runs the lambda passed into it
         binding.downloadButton.setOnDownloadClickListener {
             //put what happens when downloadButton is clicked
+
 
             when (loadingFile) {
                 Loading.GLIDE -> {
 
                 }
                 Loading.UDACITY -> {
-
+                    processAnimation_NoFileSelected()
                 }
                 Loading.RETROFIT -> {
 
@@ -79,9 +121,8 @@ class MainActivity : AppCompatActivity() {
                     //This should only last for a say 5 seconds before animation stops
                     // and customer view becomes invisible
 
-                    animateSelectFileButton()
+                    processAnimation_NoFileSelected()
 
-//                    binding.selectDownloadButton.isVisible = true
 
                 }
             }
@@ -92,13 +133,19 @@ class MainActivity : AppCompatActivity() {
     private fun setOnCheckedListenerToRadioGroup (group: RadioGroup) {
 
 
+
         val glide = binding.glideButton.id
         val udacity = binding.udacityButton.id
         val retrofit = binding.retrofitButton.id
 
-        val checkedId = 0
+        val checkedId = -1
 
         val listener = ClickListenerOuter(glide, udacity, retrofit)
+
+        //Sets the checked change listener for the group
+        group.setOnCheckedChangeListener (listener)
+
+        //calls the onCheckedChanged method for the listener
         listener.onCheckedChanged(group, checkedId)
 
     }
@@ -111,36 +158,38 @@ class MainActivity : AppCompatActivity() {
     }
 
 
-    private fun animateSelectFileButton () {
-
-        val animatedWidth = binding.animatedDownloadButton.width
-
-        val animator = ValueAnimator.ofInt(0, animatedWidth)
-        animator.duration = 5000
-
-        animator.addUpdateListener { valueAnimator  ->
-            val animatedValue = valueAnimator.animatedValue as Int
-
-            binding.animatedDownloadButton.right = animatedValue
-        }
-
-
-        animator.start()
-
-    }
-
-//    override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
+//    private fun animateSelectFileButton () {
 //
-//        val glideId = binding.glideButton.id
-//        val udacityId = binding.udacityButton.id
-//        val retrofitId = binding.retrofitButton.id
+//        val animatedWidth = binding.animatedDownloadButton.width
 //
-//        when (checkedId) {
-//            glideId -> {}
-//            udacityId -> {}
-//            retrofitId -> {}
+//        val animator = ValueAnimator.ofInt(0, animatedWidth)
+//        animator.duration = 5000
+//
+//        animator.addUpdateListener { valueAnimator  ->
+//            val animatedValue = valueAnimator.animatedValue as Int
+//
+//            binding.animatedDownloadButton.right = animatedValue
 //        }
+//
+//
+//        animator.start()
+//
+//    }
 
+//    private fun animateButton () {
+//
+//        val initialSize = 0
+//        val finalSize = binding.animatedDownloadButton.measuredWidth
+//
+//        val sizeAnimator = ValueAnimator.ofInt(initialSize, finalSize)
+//        sizeAnimator.duration = 5000
+//
+//        sizeAnimator.addUpdateListener {
+//            binding.animatedDownloadButton.updateLayoutParams {
+//                binding.animatedDownloadButton.width = it.animatedValue as Int
+//            }
+//        }
+//
 //    }
 
 
