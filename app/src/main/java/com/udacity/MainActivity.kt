@@ -44,11 +44,10 @@ class MainActivity : AppCompatActivity() {
     private lateinit var valueAnimator: ValueAnimator
 
 
-    //***********************Couroutines***********************************
+    //***********************Couroutines_NoFileSelected***********************************
     private var animationProcessingJob_NoFileSelected = Job()
 
     private val animationProcessingScope_NoFileSelected = CoroutineScope(Dispatchers.Main + animationProcessingJob_NoFileSelected)
-
 
 
     private fun processAnimation_NoFileSelected(){
@@ -58,11 +57,38 @@ class MainActivity : AppCompatActivity() {
             val rightPosition = binding.downloadButton.x + binding.downloadButton.width
 
             binding.animatedDownloadButton.showAnimatedDownloadButton(leftPosition, rightPosition)
+
+            binding.selectFileButton.showSelectFileButton()
+
             delay(5000)
             binding.animatedDownloadButton.isGone = true
+            binding.selectFileButton.isGone = true
         }
     }
+    //*************************************************************************************
 
+    //******************************Coroutines_Glide*****************************************
+
+    private var animationProcessingJob_GlideSelected = Job()
+
+    private val animationProcessingScope_GlideSelected = CoroutineScope(Dispatchers.Main + animationProcessingJob_GlideSelected)
+
+    private fun processAnimation_Glide() {
+        animationProcessingScope_GlideSelected.launch {
+
+            binding.progressCircle.showAnimatedCircle()
+
+            delay(5000)
+            binding.progressCircle.isGone = true
+        }
+
+    }
+
+
+
+
+
+    //**************************************************************************************
 
 
 
@@ -71,6 +97,7 @@ class MainActivity : AppCompatActivity() {
         super.onDestroy()
 
         animationProcessingJob_NoFileSelected.cancel()
+        animationProcessingScope_GlideSelected.cancel()
     }
 
 
@@ -96,8 +123,7 @@ class MainActivity : AppCompatActivity() {
 //        binding.animatedDownloadButton.isGone = true
         binding.selectFileButton.isGone = true
 
-//        binding.selectFileButton.setBackgroundResource(R.drawable.rectangle_rounded_corners)
-
+//        binding.animatedDownloadButton.isGone = true
 
         //setOnDownloadClickListener runs the lambda passed into it
         binding.downloadButton.setOnDownloadClickListener {
@@ -107,9 +133,11 @@ class MainActivity : AppCompatActivity() {
             when (loadingFile) {
                 Loading.GLIDE -> {
 
+                    processAnimation_Glide()
                 }
                 Loading.UDACITY -> {
-                    processAnimation_NoFileSelected()
+
+
                 }
                 Loading.RETROFIT -> {
 
@@ -120,6 +148,7 @@ class MainActivity : AppCompatActivity() {
                     //is overlaid on top of select_download_button
                     //This should only last for a say 5 seconds before animation stops
                     // and customer view becomes invisible
+
 
                     processAnimation_NoFileSelected()
 

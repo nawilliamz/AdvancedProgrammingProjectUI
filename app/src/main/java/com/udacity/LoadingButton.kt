@@ -56,6 +56,8 @@ class LoadingButton @JvmOverloads constructor(
     val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         textAlign = Paint.Align.CENTER
         textSize = 66.0f
+        setColor(Color.WHITE)
+
 //        typeface = Typeface.create( "", Typeface.BOLD)
     }
 
@@ -118,7 +120,7 @@ class LoadingButton @JvmOverloads constructor(
         canvas?.drawRect(rect.left, rect.top, rect.right, rect.bottom, buttonPaint)
 
         if (canvas != null) {
-//            drawButtonPreDLText(canvas)
+            drawButtonPreDLText(canvas)
             
 //            drawButtonDownloadingText(canvas)
 

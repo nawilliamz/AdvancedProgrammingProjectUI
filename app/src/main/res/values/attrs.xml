@@ -5,7 +5,8 @@
         <attr name="primaryButtonColor" format="color" />
         <attr name="downloadButtonColor" format="color" />
         <attr name="primaryColor" format="color"/>
-
+        <attr name="accentColor" format="color"/>
+        <attr name="sweepAngle" format="float"/>
     </declare-styleable>
 
 </resources>

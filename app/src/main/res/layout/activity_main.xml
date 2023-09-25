@@ -60,7 +60,6 @@
         android:id="@+id/download_button"
         android:layout_width="350dp"
         android:layout_height="60dp"
-
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -72,6 +71,7 @@
         android:id="@+id/animated_download_button"
         android:layout_width="350dp"
         android:layout_height="60dp"
+        android:visibility="invisible"
         app:downloadButtonColor="@color/colorPrimaryDark"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
@@ -83,11 +83,23 @@
         android:layout_width="280dp"
         android:layout_height="42dp"
         android:background="@drawable/rectangle_rounded_corners"
+        android:visibility="invisible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="@+id/guideline3"
         app:primaryColor="@color/white" />
+
+    <com.udacity.ProgressCircle
+        android:id="@+id/progress_circle"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
+        android:visibility="visible"
+        app:accentColor="@color/colorAccent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="@+id/guideline3" />
 
     <androidx.constraintlayout.widget.Guideline
         android:id="@+id/guideline3"

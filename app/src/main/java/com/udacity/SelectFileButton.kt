@@ -2,11 +2,14 @@ package com.udacity
 
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.RectF
 import android.util.AttributeSet
 import android.view.View
 import androidx.core.content.withStyledAttributes
+import androidx.core.view.isGone
+import androidx.core.view.isVisible
 
 class SelectFileButton @JvmOverloads constructor(
     context: Context, attrs: AttributeSet? = null, defStyleAttr: Int = 0
@@ -37,6 +40,12 @@ class SelectFileButton @JvmOverloads constructor(
 //        typeface = Typeface.create( "", Typeface.BOLD)
     }
 
+    val textPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
+        textAlign = Paint.Align.CENTER
+        textSize = 66.0f
+        setColor(Color.BLACK)
+    }
+
 
     init {
         context.withStyledAttributes(attrs, R.styleable.LoadingButton) {
@@ -45,6 +54,11 @@ class SelectFileButton @JvmOverloads constructor(
         }
 
         this.alpha = .8f
+
+    }
+
+    suspend fun showSelectFileButton () {
+        this.isVisible = true
 
     }
 
@@ -72,6 +86,22 @@ class SelectFileButton @JvmOverloads constructor(
 //            canvas?.drawRect(left, top, right, bottom, selectFilePaint)
             canvas?.drawRoundRect(left, top, right, bottom, 60f, 60f, selectFilePaint)
 
+        if (canvas != null) {
+            selectFileText(canvas)
+        }
+
             setBackgroundResource(R.drawable.rectangle_rounded_corners)
+    }
+
+
+    private fun selectFileText (canvas:Canvas) {
+
+        canvas.translate(textWidth, textHeight)
+        canvas.save()
+
+        canvas.drawText("Select file to download", 0F,33F, textPaint)
+
+        canvas.restore()
+
     }
 }

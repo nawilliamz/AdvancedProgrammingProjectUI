@@ -39,6 +39,7 @@ class AnimatedDownloadButton @JvmOverloads constructor(
 
 
 
+
     val selectDownloadPaint = Paint(Paint.ANTI_ALIAS_FLAG).apply {
         style = Paint.Style.FILL
 //        textAlign = Paint.Align.CENTER
@@ -48,6 +49,9 @@ class AnimatedDownloadButton @JvmOverloads constructor(
 
     init {
 
+//        this.isGone = true
+
+
         //Remember: This code is defining a custom attribute for the View called buttonPrimaryColor and
         //button DownloadColor. The actual color is defined in the XML file.
         context.withStyledAttributes(attrs, R.styleable.LoadingButton) {
@@ -55,6 +59,8 @@ class AnimatedDownloadButton @JvmOverloads constructor(
             buttonDownloadColor = getColor(R.styleable.LoadingButton_downloadButtonColor, 0)
 
         }
+
+
     }
 
     suspend fun showAnimatedDownloadButton (downloadButtonX: Float, downloadButtonRight:Float) {
@@ -69,7 +75,6 @@ class AnimatedDownloadButton @JvmOverloads constructor(
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
-
 
         //Using to set text width & height
         width = w.toFloat()
@@ -87,13 +92,17 @@ class AnimatedDownloadButton @JvmOverloads constructor(
         textWidth = width/2
         textHeight = height/2
 
+
+
     }
 
     override fun onDraw(canvas: Canvas?) {
         super.onDraw(canvas)
 
+
         selectDownloadPaint.color = buttonDownloadColor
         canvas?.drawRect(left, top, right, bottom, selectDownloadPaint)
+
 
     }
 
