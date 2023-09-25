@@ -3,6 +3,7 @@ package com.udacity
 import android.animation.ValueAnimator
 import android.content.Context
 import android.graphics.Canvas
+import android.graphics.Color
 import android.graphics.Paint
 import android.graphics.Rect
 import android.graphics.RectF
@@ -31,26 +32,35 @@ class ProgressCircle @JvmOverloads constructor (
 
         private var accentColor = 0
 
-        private var sweepAngleCircle = 0f
+        private var sweepAngle = 0f
+
+        private var text_to_circle_margin = 25f
 
         val circlePaint = Paint (Paint.ANTI_ALIAS_FLAG).apply {
                 style = Paint.Style.FILL
 
         }
 
+        val textPaint = Paint (Paint.ANTI_ALIAS_FLAG).apply {
+            textAlign = Paint.Align.RIGHT
+            textSize = 66f
+            setColor(Color.BLACK)
+        }
+
         init {
             context.withStyledAttributes(attrs, R.styleable.LoadingButton) {
                 accentColor = getColor(R.styleable.LoadingButton_accentColor, 0)
-                sweepAngleCircle = getFloat(R.styleable.LoadingButton_sweepAngle, 0f)
+
 
             }
         }
 
 
     suspend fun showAnimatedCircle () {
-//        this.isGone = false
+        this.isGone = false
 //
         animateCircle()
+
 
     }
 
@@ -80,7 +90,9 @@ class ProgressCircle @JvmOverloads constructor (
 
 //        var sweepAngle = 270f
 
-        canvas?.drawArc(rect, 0f, sweepAngleCircle, true, circlePaint)
+//        canvas?.drawText(resources.getString(R.string.button_loading), 0f, 33f, textPaint)
+
+        canvas?.drawArc(rect, 0f, sweepAngle, true, circlePaint)
 
     }
 
@@ -99,7 +111,8 @@ class ProgressCircle @JvmOverloads constructor (
         positionAnimator.duration = 5000
 
         positionAnimator.addUpdateListener {
-               this.sweepAngleCircle = it.animatedValue as Float
+               this.sweepAngle = it.animatedValue as Float
+                invalidate()
         }
 
         positionAnimator.start()
