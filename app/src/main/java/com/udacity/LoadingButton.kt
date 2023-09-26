@@ -180,6 +180,7 @@ class LoadingButton @JvmOverloads constructor(
 
         canvas.drawText("DOWNLOAD", 0F,33F, textPaint)
 
+
         canvas.restore()
 
     }

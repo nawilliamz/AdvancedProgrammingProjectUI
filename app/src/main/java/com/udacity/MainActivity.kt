@@ -8,6 +8,7 @@ import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
+import android.graphics.Color
 import android.net.Uri
 import android.os.Bundle
 import android.view.View
@@ -76,17 +77,27 @@ class MainActivity : AppCompatActivity() {
     private fun processAnimation_Glide() {
         animationProcessingScope_GlideSelected.launch {
 
+            //Set the color of DOWNLOAD text to same as background color
+            binding.downloadButton.textPaint.color = binding.downloadButton.buttonPrimaryColor
+            binding.downloadButton.invalidate()
+
+            val leftPosition = binding.downloadButton.x
+            val rightPosition = binding.downloadButton.x + binding.downloadButton.width
+
+            binding.animatedDownloadButton.showAnimatedDownloadButton(leftPosition, rightPosition)
+
             binding.progressCircle.showAnimatedCircle()
 
             delay(5000)
             binding.progressCircle.isGone = true
+            binding.animatedDownloadButton.isGone = true
+
+            //Re-set the color of DOWNLOAD text to white
+            binding.downloadButton.textPaint.color = Color.WHITE
+            binding.downloadButton.invalidate()
         }
 
     }
-
-
-
-
 
     //**************************************************************************************
 

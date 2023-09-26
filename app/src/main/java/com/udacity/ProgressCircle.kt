@@ -28,6 +28,17 @@ class ProgressCircle @JvmOverloads constructor (
         private var left_cir = 0f
         private var right_cir = 0f
 
+        private var circleRadius = resources.getDimension(R.dimen.circleRadius)
+
+        private var circleOffset = circleRadius/2
+
+        var centerWidth = 0f
+        var centerHeight = 0f
+
+        var height_cir_float = 0f
+        var textHeight = 66f
+        var textOffset = textHeight/2
+
         private var rect = RectF()
 
         private var accentColor = 0
@@ -39,12 +50,13 @@ class ProgressCircle @JvmOverloads constructor (
         val circlePaint = Paint (Paint.ANTI_ALIAS_FLAG).apply {
                 style = Paint.Style.FILL
 
+
         }
 
         val textPaint = Paint (Paint.ANTI_ALIAS_FLAG).apply {
             textAlign = Paint.Align.RIGHT
             textSize = 66f
-            setColor(Color.BLACK)
+            setColor(Color.WHITE)
         }
 
         init {
@@ -71,12 +83,20 @@ class ProgressCircle @JvmOverloads constructor (
         width_cir = w
         height_cir = h
 
+        height_cir_float = h.toFloat()
+
         top_cir = 0f
-        bottom_cir = top_cir + width
+        bottom_cir = top_cir + circleRadius
         left_cir = 0f
-        right_cir = left_cir + width
+        right_cir = left_cir + circleRadius
 
         circlePaint.color = accentColor
+
+//        centerWidth = w/2 - circleOffset
+        centerWidth = (2*w/3).toFloat()
+        centerHeight = h/2 - circleOffset
+
+        textHeight = height_cir_float/2
 
         rect = RectF(left_cir, top_cir, right_cir, bottom_cir)
 
@@ -90,9 +110,11 @@ class ProgressCircle @JvmOverloads constructor (
 
 //        var sweepAngle = 270f
 
+        centerProgressCircle(canvas)
+
 //        canvas?.drawText(resources.getString(R.string.button_loading), 0f, 33f, textPaint)
 
-        canvas?.drawArc(rect, 0f, sweepAngle, true, circlePaint)
+//        canvas?.drawArc(rect, 0f, sweepAngle, true, circlePaint)
 
     }
 
@@ -118,4 +140,12 @@ class ProgressCircle @JvmOverloads constructor (
         positionAnimator.start()
     }
 
+    private fun centerProgressCircle(canvas: Canvas?) {
+
+        canvas?.translate(centerWidth, centerHeight)
+
+        canvas?.drawArc(rect, 0f, sweepAngle, true, circlePaint)
+
+        canvas?.drawText(context.getString(R.string.button_loading), 0f, textHeight, textPaint)
+    }
 }
