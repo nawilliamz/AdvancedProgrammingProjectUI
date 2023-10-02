@@ -1,5 +1,6 @@
 package com.udacity.Util
 
+import android.util.Log
 import android.widget.RadioGroup
 import android.widget.RadioGroup.OnCheckedChangeListener
 
@@ -7,6 +8,8 @@ lateinit var loadingFile:Loading
 
 class ClickListenerOuter(var glide: Int, var udacity: Int, var retrofit: Int) :
     RadioGroup.OnCheckedChangeListener {
+
+
 
     //checkedId is the Integer id of the button that has been checked.
     override fun onCheckedChanged(group: RadioGroup?, checkedId: Int) {
@@ -23,6 +26,7 @@ class ClickListenerOuter(var glide: Int, var udacity: Int, var retrofit: Int) :
             }
             else -> {
                 loadingFile = Loading.NONE
+
             }
         }
 

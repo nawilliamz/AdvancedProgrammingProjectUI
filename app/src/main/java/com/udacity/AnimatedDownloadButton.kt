@@ -7,10 +7,13 @@ import android.graphics.Paint
 import android.graphics.RectF
 import android.renderscript.Sampler.Value
 import android.util.AttributeSet
+import android.util.Log
 import android.view.View
 import androidx.core.content.withStyledAttributes
 import androidx.core.view.ContentInfoCompat.Flags
 import androidx.core.view.isGone
+import androidx.core.view.isInvisible
+import androidx.core.view.isVisible
 import androidx.core.view.updateLayoutParams
 import com.udacity.Util.Loading
 import com.udacity.Util.loadingFile
@@ -69,11 +72,13 @@ class AnimatedDownloadButton @JvmOverloads constructor(
 
     }
 
-    suspend fun showAnimatedDownloadButton (downloadButtonX: Float, downloadButtonRight:Float) {
+    fun showAnimatedDownloadButton (downloadButtonX: Float, downloadButtonRight:Float) {
         this.isGone = false
 
+
+
         animateWidth()
-//        translateAnimatedDownloadButton(downloadButtonX, downloadButtonRight)
+
         animateRightPosition(downloadButtonX, downloadButtonRight)
 
 
@@ -128,6 +133,8 @@ class AnimatedDownloadButton @JvmOverloads constructor(
 
         if (loadingFile == Loading.NONE) {
             sizeAnimator.duration = 5000
+            Log.i("AnimatedDownloadButton", "size duration code is running. Duration 5000ms")
+
         } else {
             sizeAnimator.repeatCount = infiniteWidthValue
         }
@@ -141,6 +148,7 @@ class AnimatedDownloadButton @JvmOverloads constructor(
         }
 
         sizeAnimator.start()
+        Log.i("AnimatedDownloadButton", "animateWidth started")
 
     }
 
@@ -159,6 +167,7 @@ class AnimatedDownloadButton @JvmOverloads constructor(
         //Set duration of animation
         if (loadingFile == Loading.NONE) {
             positionAnimator.duration = 5000
+            Log.i("AnimatedDownloadButton", "position duration code is running. Duration 5000ms")
         } else {
             positionAnimator.repeatCount = infinitePositionValue
         }

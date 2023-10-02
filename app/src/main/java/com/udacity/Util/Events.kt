@@ -1,7 +1,7 @@
 package com.udacity.Util
 
-sealed class Events {
-    object Loading : Events()
-
-    object Done : Events()
-}
+//sealed class Events {
+//    object Loading : Events()
+//
+//    object Done : Events()
+//}

@@ -24,6 +24,7 @@ import kotlinx.coroutines.*
 lateinit var loadingStatus:LoadingStatus
 lateinit var resultStatus:ResultStatus
 
+
 class MainActivity : AppCompatActivity() {
 
     private lateinit var binding: ActivityMainBinding
@@ -43,18 +44,19 @@ class MainActivity : AppCompatActivity() {
     init {
         loadingStatus = LoadingStatus.LOADING
         resultStatus = ResultStatus.NEUTRAL
+
     }
 
 
     //***********************Couroutines_NoFileSelected***********************************
-    private var animationProcessingJob_NoFileSelected = Job()
-
-    private val animationProcessingScope_NoFileSelected = CoroutineScope(Dispatchers.Main + animationProcessingJob_NoFileSelected)
+//    private var animationProcessingJob_NoFileSelected = Job()
+//
+//    private val animationProcessingScope_NoFileSelected = CoroutineScope(Dispatchers.Main + animationProcessingJob_NoFileSelected)
 
 
     private fun processAnimation_NoFileSelected(){
 
-        animationProcessingScope_NoFileSelected.launch {
+            Log.i("MainActivity", "processAnimation_NoFileSelected is running.")
 
             //Set the color of DOWNLOAD text to same as background color
             binding.downloadButton.textPaint.color = binding.downloadButton.buttonPrimaryColor
@@ -67,31 +69,29 @@ class MainActivity : AppCompatActivity() {
 
             binding.selectFileButton.showSelectFileButton()
 
-            delay(5000)
+//            delay(5000)
             binding.animatedDownloadButton.isGone = true
             binding.selectFileButton.isGone = true
 
             //Re-set the color of DOWNLOAD text to white
             binding.downloadButton.textPaint.color = Color.WHITE
             binding.downloadButton.invalidate()
-        }
+
     }
     //*************************************************************************************
 
     //******************************Coroutines_Glide*****************************************
 
-    private var animationProcessingJob_GlideSelected = Job()
-
-    private val animationProcessingScope_GlideSelected = CoroutineScope(Dispatchers.Main + animationProcessingJob_GlideSelected)
+//    private var animationProcessingJob_GlideSelected = Job()
+//
+//    private val animationProcessingScope_GlideSelected = CoroutineScope(Dispatchers.Main + animationProcessingJob_GlideSelected)
 
     private fun processAnimation_Glide() {
-        animationProcessingScope_GlideSelected.launch {
-
 
             //Set the color of DOWNLOAD text to same as background color
             binding.downloadButton.textPaint.color = binding.downloadButton.buttonPrimaryColor
             binding.downloadButton.invalidate()
-            Log.i("MainActivity", "DOWNLOAD text changed to buttonPrimaryColory")
+            Log.i("MainActivity", "DOWNLOAD text changed to buttonPrimaryColor")
 
             val leftPosition = binding.downloadButton.x
             val rightPosition = binding.downloadButton.x + binding.downloadButton.width
@@ -152,7 +152,6 @@ class MainActivity : AppCompatActivity() {
 
 
 
-        }
 
     }
 
@@ -166,8 +165,8 @@ class MainActivity : AppCompatActivity() {
     override fun onDestroy() {
         super.onDestroy()
 
-        animationProcessingJob_NoFileSelected.cancel()
-        animationProcessingScope_GlideSelected.cancel()
+//        animationProcessingJob_NoFileSelected.cancel()
+
     }
 
 
@@ -178,12 +177,7 @@ class MainActivity : AppCompatActivity() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
 
-
-
         registerReceiver(receiver, IntentFilter(DownloadManager.ACTION_DOWNLOAD_COMPLETE))
-
-
-
 
         setOnCheckedListenerToRadioGroup(binding.radioGroup)
 

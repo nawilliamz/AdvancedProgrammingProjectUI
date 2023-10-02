@@ -6,7 +6,7 @@ import android.content.Context
 import android.content.Intent
 import android.util.Log
 import com.udacity.Util.ResultStatus
-import com.udacity.Util.Events
+
 import com.udacity.Util.LoadingStatus
 import com.udacity.databinding.ActivityMainBinding
 

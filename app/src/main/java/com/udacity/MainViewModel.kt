@@ -3,13 +3,13 @@ package com.udacity
 import android.app.DownloadManager
 import androidx.lifecycle.LiveData
 import androidx.lifecycle.ViewModel
-import com.udacity.Util.Events
+
 import com.udacity.Util.SingleLiveEvent
 
 class MainViewModel() : ViewModel() {
 
-    val _events = SingleLiveEvent<Events>()
-    val events = _events as LiveData<Events>
+//    val _events = SingleLiveEvent<Events>()
+//    val events = _events as LiveData<Events>
 
 
 

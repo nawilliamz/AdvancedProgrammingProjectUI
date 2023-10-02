@@ -57,7 +57,7 @@ class SelectFileButton @JvmOverloads constructor(
 
     }
 
-    suspend fun showSelectFileButton () {
+    fun showSelectFileButton () {
         this.isVisible = true
 
     }

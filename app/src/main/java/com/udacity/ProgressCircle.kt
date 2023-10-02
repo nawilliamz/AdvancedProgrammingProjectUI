@@ -72,7 +72,7 @@ class ProgressCircle @JvmOverloads constructor (
         }
 
 
-    suspend fun showAnimatedCircle () {
+    fun showAnimatedCircle () {
         this.isGone = false
 //
         animateCircle()
