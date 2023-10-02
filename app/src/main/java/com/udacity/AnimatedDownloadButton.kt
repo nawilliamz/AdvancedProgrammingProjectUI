@@ -12,8 +12,11 @@ import androidx.core.content.withStyledAttributes
 import androidx.core.view.ContentInfoCompat.Flags
 import androidx.core.view.isGone
 import androidx.core.view.updateLayoutParams
+import com.udacity.Util.Loading
+import com.udacity.Util.loadingFile
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import java.time.Duration
 import java.util.*
 
 class AnimatedDownloadButton @JvmOverloads constructor(
@@ -36,6 +39,8 @@ class AnimatedDownloadButton @JvmOverloads constructor(
 
     val rect = RectF()
 
+    var sizeAnimator = ValueAnimator()
+    var positionAnimator = ValueAnimator()
 
 
 
@@ -61,6 +66,7 @@ class AnimatedDownloadButton @JvmOverloads constructor(
         }
 
 
+
     }
 
     suspend fun showAnimatedDownloadButton (downloadButtonX: Float, downloadButtonRight:Float) {
@@ -71,6 +77,11 @@ class AnimatedDownloadButton @JvmOverloads constructor(
         animateRightPosition(downloadButtonX, downloadButtonRight)
 
 
+    }
+
+    fun cancelAnimators() {
+        sizeAnimator.cancel()
+        positionAnimator.cancel()
     }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
@@ -111,8 +122,16 @@ class AnimatedDownloadButton @JvmOverloads constructor(
         val initialSize = 0
         val finalSize = this.width.toInt()
 
-        val sizeAnimator = ValueAnimator.ofInt(initialSize, finalSize)
-        sizeAnimator.duration = 5000
+        val infiniteWidthValue = ValueAnimator.INFINITE
+
+        sizeAnimator = ValueAnimator.ofInt(initialSize, finalSize)
+
+        if (loadingFile == Loading.NONE) {
+            sizeAnimator.duration = 5000
+        } else {
+            sizeAnimator.repeatCount = infiniteWidthValue
+        }
+
 
         sizeAnimator.addUpdateListener {
             this.updateLayoutParams {
@@ -122,6 +141,7 @@ class AnimatedDownloadButton @JvmOverloads constructor(
         }
 
         sizeAnimator.start()
+
     }
 
     private fun animateRightPosition (downloadButtonX: Float, downloadButtonRight:Float) {
@@ -132,8 +152,17 @@ class AnimatedDownloadButton @JvmOverloads constructor(
         val initialPosition = downloadButtonX
         val finalPosition = downloadButtonX
 
-        val positionAnimator = ValueAnimator.ofFloat(initialPosition, finalPosition)
-        positionAnimator.duration = 5000
+        val infinitePositionValue = ValueAnimator.INFINITE
+
+        positionAnimator = ValueAnimator.ofFloat(initialPosition, finalPosition)
+
+        //Set duration of animation
+        if (loadingFile == Loading.NONE) {
+            positionAnimator.duration = 5000
+        } else {
+            positionAnimator.repeatCount = infinitePositionValue
+        }
+
 
         positionAnimator.addUpdateListener {
 

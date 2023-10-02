@@ -11,22 +11,24 @@ import androidx.core.content.res.TypedArrayUtils.getString
 import kotlinx.coroutines.withContext
 
 
-class GlideDownloader(context: Context) : Downloader {
+object GlideDownloader : Downloader {
 
+        const val URL = "https://github.com/bumptech/glide"
 
-    val downloadManager = context.getSystemService(DownloadManager::class.java)
+//    val downloadManager = context.getSystemService(DownloadManager::class.java)
 
-    companion object {
+//    companion object {
+//
+//         const val URL = "https://github.com/bumptech/glide"
+//        private const val CHANNEL_ID = "glideId"
+//    }
 
-         const val URL = "https://github.com/bumptech/glide"
-        private const val CHANNEL_ID = "glideId"
-    }
+    override fun downloadFile(url: String, context: Context): Long {
 
-    override fun downloadFile(url: String): Long {
+        val downloadManager = context.getSystemService(DownloadManager::class.java)
 
         val request = DownloadManager.Request(Uri.parse(url))
             .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
-            .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE)
             .setTitle("glide-master.zip")
             .setDescription(R.string.app_description.toString())
             .setRequiresCharging(false)
@@ -41,7 +43,7 @@ class GlideDownloader(context: Context) : Downloader {
 
 }
 
-class UdacityDownloader(context: Context) : Downloader {
+abstract class UdacityDownloader(context: Context) : Downloader {
 
     private val downloadManager = context.getSystemService(DownloadManager::class.java)
 
@@ -51,11 +53,10 @@ class UdacityDownloader(context: Context) : Downloader {
         private const val CHANNEL_ID = "udacityId"
     }
 
-    override fun downloadFile(url: String): Long {
+    override fun downloadFile(url: String, context: Context): Long {
 
         val request = DownloadManager.Request(Uri.parse(url))
             .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
-            .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE)
             .setTitle("nd940-c3-advanced-android-programming-project-starter-master.zip")
             .setDescription(R.string.app_description.toString())
             .setRequiresCharging(false)
@@ -69,7 +70,7 @@ class UdacityDownloader(context: Context) : Downloader {
 
 }
 
-class RetrofitDownloader(context: Context) : Downloader {
+abstract class RetrofitDownloader(context: Context) : Downloader {
 
     private val downloadManager = context.getSystemService(DownloadManager::class.java)
 
@@ -79,11 +80,10 @@ class RetrofitDownloader(context: Context) : Downloader {
         private const val CHANNEL_ID = "retrofitId"
     }
 
-    override fun downloadFile(url: String): Long {
+    override fun downloadFile(url: String, context: Context): Long {
 
         val request = DownloadManager.Request(Uri.parse(url))
             .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_WIFI)
-            .setAllowedNetworkTypes(DownloadManager.Request.NETWORK_MOBILE)
             .setTitle("retrofit-master.zip")
             .setDescription(R.string.app_description.toString())
             .setRequiresCharging(false)

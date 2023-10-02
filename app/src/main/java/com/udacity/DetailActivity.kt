@@ -12,6 +12,11 @@ class DetailActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         binding = ActivityDetailBinding.inflate(layoutInflater)
         setContentView(binding.root)
-        setSupportActionBar(binding.toolbar)
+
+        val fileName = intent.getStringExtra("FILENAME")
+        val status = intent.getStringExtra("STATUS")
+
+        binding.fileNameText.setText(fileName)
+        binding.statusText.setText(status)
     }
 }

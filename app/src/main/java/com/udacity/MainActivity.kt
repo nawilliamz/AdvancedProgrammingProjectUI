@@ -9,27 +9,20 @@ import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.graphics.Color
-import android.net.Uri
 import android.os.Bundle
-import android.view.View
-import android.widget.RadioButton
+import android.util.Log
 import android.widget.RadioGroup
-import android.widget.RadioGroup.OnCheckedChangeListener
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.app.NotificationCompat
 import androidx.core.view.isGone
-import androidx.core.view.isVisible
-import androidx.core.view.updateLayoutParams
-import com.udacity.Util.ClickListenerOuter
-import com.udacity.Util.Constants
-import com.udacity.Util.Loading
-import com.udacity.Util.loadingFile
+import com.udacity.Util.*
 import com.udacity.databinding.ActivityMainBinding
 import kotlinx.coroutines.*
-import java.util.Timer
 
 
-
+//lateinit var loadingStatus:Events
+lateinit var loadingStatus:LoadingStatus
+lateinit var resultStatus:ResultStatus
 
 class MainActivity : AppCompatActivity() {
 
@@ -41,8 +34,16 @@ class MainActivity : AppCompatActivity() {
     private lateinit var pendingIntent: PendingIntent
     private lateinit var action: NotificationCompat.Action
 
+    private lateinit var fileName:String
+    private lateinit var fileDownloadStatus:String
 
+    private var context: Context = this
     private lateinit var valueAnimator: ValueAnimator
+
+    init {
+        loadingStatus = LoadingStatus.LOADING
+        resultStatus = ResultStatus.NEUTRAL
+    }
 
 
     //***********************Couroutines_NoFileSelected***********************************
@@ -52,7 +53,12 @@ class MainActivity : AppCompatActivity() {
 
 
     private fun processAnimation_NoFileSelected(){
+
         animationProcessingScope_NoFileSelected.launch {
+
+            //Set the color of DOWNLOAD text to same as background color
+            binding.downloadButton.textPaint.color = binding.downloadButton.buttonPrimaryColor
+            binding.downloadButton.invalidate()
 
             val leftPosition = binding.downloadButton.x
             val rightPosition = binding.downloadButton.x + binding.downloadButton.width
@@ -64,6 +70,10 @@ class MainActivity : AppCompatActivity() {
             delay(5000)
             binding.animatedDownloadButton.isGone = true
             binding.selectFileButton.isGone = true
+
+            //Re-set the color of DOWNLOAD text to white
+            binding.downloadButton.textPaint.color = Color.WHITE
+            binding.downloadButton.invalidate()
         }
     }
     //*************************************************************************************
@@ -77,9 +87,11 @@ class MainActivity : AppCompatActivity() {
     private fun processAnimation_Glide() {
         animationProcessingScope_GlideSelected.launch {
 
+
             //Set the color of DOWNLOAD text to same as background color
             binding.downloadButton.textPaint.color = binding.downloadButton.buttonPrimaryColor
             binding.downloadButton.invalidate()
+            Log.i("MainActivity", "DOWNLOAD text changed to buttonPrimaryColory")
 
             val leftPosition = binding.downloadButton.x
             val rightPosition = binding.downloadButton.x + binding.downloadButton.width
@@ -88,16 +100,63 @@ class MainActivity : AppCompatActivity() {
 
             binding.progressCircle.showAnimatedCircle()
 
-            delay(5000)
-            binding.progressCircle.isGone = true
-            binding.animatedDownloadButton.isGone = true
+//            Start download with code by referencing DownloadClass
+            GlideDownloader.downloadFile(Constants.GLIDE_URL, context)
 
-            //Re-set the color of DOWNLOAD text to white
-            binding.downloadButton.textPaint.color = Color.WHITE
-            binding.downloadButton.invalidate()
+
+            if (loadingStatus == LoadingStatus.DONE) {
+
+                //Stop animation of customer views
+                binding.animatedDownloadButton.cancelAnimators()
+                binding.progressCircle.cancelAnimatedCircle()
+                Log.i("MainActivity", "DownloadButton & ProgressCircle animates are cancelled")
+
+
+                //Make custom view disappear
+                binding.progressCircle.isGone = true
+                binding.animatedDownloadButton.isGone = true
+
+                //Re-set the color of DOWNLOAD text to white
+                binding.downloadButton.textPaint.color = Color.WHITE
+                binding.downloadButton.invalidate()
+
+
+                //*****************Navigation to DetailsActivity**************************
+                //Trigger navigation to DetailsActivity when download complete using Intent
+                //Do you need to place this code inside the CoroutineScope? I do think so insofar as I
+                //need to stop this corouting from processing.
+
+                fileName = Constants.GLIDE_FILE_NAME
+                if (resultStatus == ResultStatus.SUCCESS) {
+                    fileDownloadStatus = "Success"
+                } else {
+                    fileDownloadStatus = "Fail"
+                }
+
+                Intent(this@MainActivity, DetailActivity::class.java).also {
+                    it.putExtra("FILENAME", fileName)
+                    it.putExtra("STATUS", fileDownloadStatus)
+
+                    startActivity(it)
+                }
+                //******************************************************************************
+
+
+                //Reset loadingStatus & fileDownloadStatus progress indicators
+                loadingStatus = LoadingStatus.LOADING
+                resultStatus = ResultStatus.NEUTRAL
+
+                //Stop the coroutine from processing
+                //I don't think any need to do this as it is being cancelled in onDestroy()??
+            }
+
+
+
         }
 
     }
+
+
 
     //**************************************************************************************
 

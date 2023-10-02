@@ -39,6 +39,8 @@ class ProgressCircle @JvmOverloads constructor (
         var textHeight = 66f
         var textOffset = textHeight/2
 
+        var positionAnimator = ValueAnimator()
+
         private var rect = RectF()
 
         private var accentColor = 0
@@ -46,6 +48,8 @@ class ProgressCircle @JvmOverloads constructor (
         private var sweepAngle = 0f
 
         private var text_to_circle_margin = 25f
+
+
 
         val circlePaint = Paint (Paint.ANTI_ALIAS_FLAG).apply {
                 style = Paint.Style.FILL
@@ -73,9 +77,11 @@ class ProgressCircle @JvmOverloads constructor (
 //
         animateCircle()
 
-
     }
 
+    fun cancelAnimatedCircle() {
+        positionAnimator.cancel()
+    }
 
     override fun onSizeChanged(w: Int, h: Int, oldw: Int, oldh: Int) {
         super.onSizeChanged(w, h, oldw, oldh)
@@ -129,8 +135,15 @@ class ProgressCircle @JvmOverloads constructor (
         val initialPosition = 0f
         val finalPosition = 360f
 
-        val positionAnimator = ValueAnimator.ofFloat(initialPosition, finalPosition)
-        positionAnimator.duration = 5000
+        positionAnimator = ValueAnimator.ofFloat(initialPosition, finalPosition)
+
+        //Remember, the duration must still be 5000 ms in case where no file is selected. use if statement with
+        //condition using Loading enum class. If Loading.NONE, then set duration equal to 5000 ms.
+//        val duration = ValueAnimator.DURATION_INFINITE
+
+        val infiniteCircleValue = ValueAnimator.INFINITE
+
+        positionAnimator.repeatCount = infiniteCircleValue
 
         positionAnimator.addUpdateListener {
                this.sweepAngle = it.animatedValue as Float

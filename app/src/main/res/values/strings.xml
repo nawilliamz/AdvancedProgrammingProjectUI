@@ -17,5 +17,11 @@
     <string name="Retrofit">Retrofit - Type-safe HTTP client for Android and Java by Square, inc</string>
 
     <string name="download_button_text">DOWNLOAD</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+
+    <string name="file_name">File name:</string>
+    <string name="status">Status:</string>
+    <string name="okay_button">OK</string>
 
 </resources>
